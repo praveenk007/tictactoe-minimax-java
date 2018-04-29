@@ -14,7 +14,7 @@ public class MinMaxAlgo {
     private int min_score = -10;
 
     public Move minMax(Board board, WinnerEnum player) {
-        System.out.println();
+        //board.print_board();
         List<Integer> availSpots = board.get_avail_spots();
         WinnerEnum winner = board.whoWon();
         if (WinnerEnum.HUMAN == winner) {
@@ -23,7 +23,7 @@ public class MinMaxAlgo {
         else if (WinnerEnum.AI == winner) {
             return new Move(10);
         }
-        if (availSpots.size() == 0) {
+        else if (availSpots.size() == 0) {
             return new Move(0);
         }
 
@@ -35,10 +35,13 @@ public class MinMaxAlgo {
             if(player == WinnerEnum.AI) {
                 board.makeMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
                 move.setScore(minMax(board, WinnerEnum.HUMAN).getScore());
+                board.undoMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
             } else {
                 board.makeMove(availSpots.get(index), PlayerEnum.HUMAN.getSymbol());
                 move.setScore(minMax(board, WinnerEnum.AI).getScore());
+                board.undoMove(availSpots.get(index), PlayerEnum.HUMAN.getSymbol());
             }
+
             moves[index] = move;
         }
         Move best_move = null;

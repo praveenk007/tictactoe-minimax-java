@@ -100,4 +100,20 @@ public class Board implements Cloneable {
         return WinnerEnum.NO_ONE;
     }
 
+
+    public void print_board() {
+        System.out.println(" ========= =========");
+        for(int index = 0; index < board.length; index++) {
+            if(board[index] == null) {
+                System.out.print("-" + "\t");
+            } else {
+                System.out.print(board[index] + "\t");
+            }
+            if(index == 2 || index == 5 || index == 8) {
+                System.out.println();
+            }
+        }
+        System.out.println(" ========= =========");
+        System.out.println();
+    }
 }

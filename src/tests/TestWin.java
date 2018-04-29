@@ -9,9 +9,11 @@ import com.ttt.utils.MinMaxAlgo;
 public class TestWin {
 
     public static void main(String args[]) {
-        String game[] = {null, null, "O",
-                            "X", "X", "X",
-                         null, null, "O"};
+        String game[] = {
+                            "X", "O", "X",
+                            "O", null, null,
+                            null, null, "X"
+                        };
         Board board = new Board(game);
         MinMaxAlgo algo = new MinMaxAlgo();
         Move move = algo.minMax(board, WinnerEnum.AI);
