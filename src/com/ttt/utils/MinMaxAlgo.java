@@ -26,16 +26,19 @@ public class MinMaxAlgo {
         else if (availSpots.size() == 0) {
             return new Move(0);
         }
-
         Move[] moves = new Move[availSpots.size()];
         for(int index = 0; index < availSpots.size(); index++) {
             Move move = new Move();
             move.setIndex(availSpots.get(index));
 
             if(player == WinnerEnum.AI) {
-                board.makeMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
-                move.setScore(minMax(board, WinnerEnum.HUMAN).getScore());
-                board.undoMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
+                if(board.findIfBlockMoveFor(PlayerEnum.AI, PlayerEnum.HUMAN, availSpots.get(index))) {
+                    move.setScore(10);
+                } else {
+                    board.makeMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
+                    move.setScore(minMax(board, WinnerEnum.HUMAN).getScore());
+                    board.undoMove(availSpots.get(index), PlayerEnum.AI.getSymbol());
+                }
             } else {
                 board.makeMove(availSpots.get(index), PlayerEnum.HUMAN.getSymbol());
                 move.setScore(minMax(board, WinnerEnum.AI).getScore());

@@ -1,5 +1,9 @@
 package com.ttt.models;
 
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.deploy.util.StringUtils;
+import com.sun.tools.javac.util.ArrayUtils;
+import com.ttt.enums.PlayerEnum;
 import com.ttt.enums.WinnerEnum;
 
 import java.util.ArrayList;
@@ -28,6 +32,25 @@ public class Board implements Cloneable {
 
     public Board(String[] board) {
         this.board = board;
+    }
+
+    public boolean findIfBlockMoveFor(PlayerEnum player, PlayerEnum opponent, int move) {
+        makeMove(move, player.getSymbol());
+        for(int index = 0; index < win_rules.length; index++) {
+            int[] win_rule = win_rules[index];
+            if(!Arrays.stream(win_rule).anyMatch(elem -> elem == move) || board[win_rule[0]] == null || board[win_rule[1]] == null || board[win_rule[2]] == null) {
+                continue;
+            }
+            String win_string = board[win_rule[0]] + board[win_rule[1]] + board[win_rule[2]];
+            if(win_string.startsWith(opponent.getSymbol() + opponent.getSymbol()) ||
+                    win_string.endsWith(opponent.getSymbol() + opponent.getSymbol()) ||
+                    (win_string.charAt(0) == opponent.getSymbol().charAt(0) && win_string.charAt(2) == opponent.getSymbol().charAt(0))) {
+                undoMove(move, player.getSymbol());
+                return true;
+            }
+        }
+        undoMove(move, player.getSymbol());
+        return false;
     }
 
     public void makeMove(int index, String move) {
@@ -99,7 +122,6 @@ public class Board implements Cloneable {
         }
         return WinnerEnum.NO_ONE;
     }
-
 
     public void print_board() {
         System.out.println(" ========= =========");
