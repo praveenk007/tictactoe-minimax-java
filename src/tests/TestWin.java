@@ -12,9 +12,9 @@ public class TestWin {
 
     public static void main(String args[]) {
         String game[] = {
-                            "X", null, "O",
-                            "O", "O", null,
-                            "X", null, "X"
+                            "X", "O", null,
+                            null, null, "X",
+                            "X", "O", null
                         };
         Board board = new Board(game);
         MinMaxAlgo algo = new MinMaxAlgo();
